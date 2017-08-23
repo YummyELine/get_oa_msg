@@ -9,8 +9,8 @@ class OaMain(object):
 
     def mian(self):
         html,htmllist = self.login_main.response_oa()
-        print(html.read())
-        print(htmllist.read().decode('utf-8'))
+        print(html)
+        print(htmllist)
 
 
 if __name__ == '__main__':
