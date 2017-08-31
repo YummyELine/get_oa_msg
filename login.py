@@ -16,7 +16,12 @@ class LoginObj(object):
         data = {"STAFFID": "002122", "PWD": "Liqy2122", "v_code": ""}  # 用户名密码
         url = "http://192.168.1.9:8081/oa/LoginCheck"
         req = loginbase.LoginBase.res_obj(url, data)
-        html = self.opener.open(req).read().decode('gbk')
+        self.opener.open(req).read().decode('gbk')
+
+
+        main_url = "http://192.168.1.9:8081/oa/PersonalFlowIndex"
+        main_req = loginbase.LoginBase.res_obj(main_url)
+        html = self.opener.open(main_req).read().decode('gbk')
 
         list_data = {"pageSize": "20",
                      "pageNum:": "1",

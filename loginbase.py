@@ -5,7 +5,15 @@ import urllib.request
 
 class LoginBase(object):
     @staticmethod
-    def res_obj(url, post_data):
-        p_data = urllib.parse.urlencode(post_data).encode('utf-8') # 对data进行url编码
-        req = urllib.request.Request(url, p_data)
+    def res_obj(*args):
+        if len(args) == 2:
+            p_data = urllib.parse.urlencode(args[1]).encode('utf-8')  # 对data进行url编码
+            req = urllib.request.Request(args[0], p_data)
+        elif len(args) == 1:
+            req = urllib.request.Request(args[0])
+        else:
+            req = None
         return req
+
+
+
