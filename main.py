@@ -3,6 +3,7 @@
 import login
 import html_parser
 import sql_operate
+import send_mail_pending
 
 
 class OaMain(object):
@@ -11,11 +12,14 @@ class OaMain(object):
 
     def mian(self):
         html,htmllist = self.login_main.response_oa()
-        main_data = html_parser.HtmlParser(html).main_parse()
-        sql_operate.SqlOperate.insert_pending(main_data)
+        main_list = html_parser.HtmlParser(html).main_parse()
+        pending_lists = sql_operate.SqlOperate.insert_pending(main_list)
+        if len(pending_lists) != 0:
+            send_mail_pending.SendMailPending.send(pending_lists)
+
         # list_data = html_parser.HtmlParser(htmllist).list_parse()
 
-        print(main_data)
+
 
 
 if __name__ == '__main__':

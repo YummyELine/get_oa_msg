@@ -13,24 +13,26 @@ class HtmlParser(object):
         self.soup = BeautifulSoup(html_code, 'html.parser')
 
     def main_parse(self):
-        main_data = {}
+        main_list = []
         tos = self.soup.find_all('tr', class_='odd')
         for to in tos:
+            main_data = {}
             bes = to.find_all('td')
             for i, be in enumerate(bes):
-                if i == 0:
+                if (i + 1) % 6 == 1:
                     main_data['process_type'] = be.get_text()
-                elif i == 1:
+                elif (i + 1) % 6 == 2:
                     main_data['process_id'] = be.get_text()
-                elif i == 2:
+                elif (i + 1) % 6 == 3:
                     main_data['process_title'] = be.get_text()
-                elif i == 3:
+                elif (i + 1) % 6 == 4:
                     main_data['create_man'] = be.get_text()
-                elif i == 4:
+                elif (i + 1) % 6 == 5:
                     main_data['create_date'] = be.get_text()
-                elif i == 5:
+                elif (i + 1) % 6 == 0:
                     main_data['process_node'] = be.get_text()
-        return main_data
+            main_list.append(main_data)
+        return main_list
 
     def list_parse(self):
 
