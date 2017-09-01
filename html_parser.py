@@ -35,8 +35,25 @@ class HtmlParser(object):
         return main_list
 
     def list_parse(self):
+        trs = self.soup.find_all('tr')
+        list_tr = []
+        list_td = []
+        rt_data = []
+        for i, tr in enumerate(trs):
+            if i > 1:
+                result = re.search(r'''id=\d+''', str(tr)).group()
+                html_address = 'http://192.168.1.9:8081/oa/NotifyContent?notify_'+result
+                list_tr.append(html_address)
+        tds = self.soup.find_all('td')
+        for i, td in enumerate(tds):
+            if i % 6 == 4:
+                list_td.append(td.get_text())
+        loop_time = len(list_tr)
+        for i in range(loop_time):
+            title_html = {}
+            title_html["title"] = list_td[i]
+            title_html["html"] = list_tr[i]
+            rt_data.append(title_html)
+        return rt_data
 
-        main_data = self._get_main_data(soup)
-        list_data = self._get_his_data(soup)
-        return list_data
 

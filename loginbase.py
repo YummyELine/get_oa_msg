@@ -2,7 +2,6 @@
 # coding:utf-8
 import urllib.request
 
-
 class LoginBase(object):
     @staticmethod
     def res_obj(*args):
