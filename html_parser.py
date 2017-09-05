@@ -41,18 +41,37 @@ class HtmlParser(object):
         rt_data = []
         for i, tr in enumerate(trs):
             if i > 1:
+                notice = {}
                 result = re.search(r'''id=\d+''', str(tr)).group()
                 html_address = 'http://192.168.1.9:8081/oa/NotifyContent?notify_'+result
-                list_tr.append(html_address)
+                notice["id"] = result
+                notice["html"] = html_address
+                list_tr.append(notice)
         tds = self.soup.find_all('td')
         for i, td in enumerate(tds):
+            if i % 6 == 0:
+                notice_data = {}
+            if i % 6 == 1:
+                notice_data["type"] = td.get_text()
+            if i % 6 == 2:
+                notice_data["send_time"] = td.get_text()
+            if i % 6 == 3:
+                notice_data["send_man"] = td.get_text()
             if i % 6 == 4:
-                list_td.append(td.get_text())
+                notice_data["title"] = td.get_text()
+            if i % 6 == 5:
+                notice_data["if_top"] = td.get_text()
+                list_td.append(notice_data)
         loop_time = len(list_tr)
         for i in range(loop_time):
             title_html = {}
-            title_html["title"] = list_td[i]
-            title_html["html"] = list_tr[i]
+            title_html["type"] = list_td[i]['type']
+            title_html["send_time"] = list_td[i]['send_time']
+            title_html["send_man"] = list_td[i]['send_man']
+            title_html["if_top"] = list_td[i]['if_top']
+            title_html["title"] = list_td[i]["title"]
+            title_html["html"] = list_tr[i]["html"]
+            title_html["html_id"] = list_tr[i]["id"]
             rt_data.append(title_html)
         return rt_data
 
